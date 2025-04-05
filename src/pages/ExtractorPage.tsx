@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Spline from '@splinetool/react-spline';
 import ImageUploader from '../components/ImageUploader';
 import ExtractedColors from '../components/ExtractedColors';
 import { ColorResult } from '../types/index';
+import { useLoading } from '../utils/LoadingContext';
 
 // 颜色转换函数 - RGB转HSL
 const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
@@ -112,7 +114,20 @@ const extractColors = (imageElement: HTMLImageElement): ColorResult[] => {
 const ExtractorPage: React.FC = () => {
   const [colors, setColors] = useState<ColorResult[]>([]);
   const [pastedImage, setPastedImage] = useState<string | null>(null);
+  const { setSplineLoaded: setGlobalSplineLoaded } = useLoading();
   const navigate = useNavigate();
+
+  // Handle Spline load
+  const handleSplineLoad = () => {
+    console.log('Extractor page Spline loaded successfully!');
+    setGlobalSplineLoaded(true);
+  };
+
+  // Handle Spline error
+  const handleSplineError = (event: React.SyntheticEvent<HTMLDivElement, Event>) => {
+    console.error('Spline loading error:', event);
+    setGlobalSplineLoaded(true);
+  };
 
   // 处理由HomePage传递过来的粘贴图片
   useEffect(() => {
@@ -143,9 +158,21 @@ const ExtractorPage: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="h-screen overflow-hidden flex flex-col bg-black py-4"
+      className="h-screen overflow-hidden flex flex-col bg-black py-4 relative"
     >
-      <div className="container mx-auto flex flex-col h-full">
+      {/* Spline 3D背景 */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <Spline
+          scene="https://prod.spline.design/dkVKBZcY1dc48EmX/scene.splinecode"
+          onLoad={handleSplineLoad}
+          onError={handleSplineError}
+          className="w-full h-full"
+        />
+        {/* Shadow overlay at the bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black to-transparent z-1 backdrop-blur-sm"></div>
+      </div>
+
+      <div className="container mx-auto flex flex-col h-full relative z-10">
         <header className="mb-4 flex items-center justify-between">
           <button 
             onClick={() => navigate('/')}
