@@ -2,10 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import ImageUploader from '../components/ImageUploader';
-import ColorPalette from '../components/ColorPalette';
+import ExtractedColors from '../components/ExtractedColors';
+import { ColorResult } from '../types/index';
+
+// 颜色转换函数 - RGB转HSL
+const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0, s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+
+  return [
+    Math.round(h * 360), 
+    Math.round(s * 100), 
+    Math.round(l * 100)
+  ];
+};
 
 // 添加颜色提取函数
-const extractColors = (imageElement: HTMLImageElement): string[] => {
+const extractColors = (imageElement: HTMLImageElement): ColorResult[] => {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return [];
@@ -64,11 +94,23 @@ const extractColors = (imageElement: HTMLImageElement): string[] => {
   return Object.entries(quantizedColors)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10)
-    .map(entry => entry[0]);
+    .map(entry => {
+      const hex = entry[0];
+      const r = parseInt(hex.substring(1, 3), 16);
+      const g = parseInt(hex.substring(3, 5), 16);
+      const b = parseInt(hex.substring(5, 7), 16);
+      const hsl = rgbToHsl(r, g, b);
+      
+      return {
+        hex: hex,
+        rgb: `rgb(${r}, ${g}, ${b})`,
+        hsl: `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
+      };
+    });
 };
 
 const ExtractorPage: React.FC = () => {
-  const [colors, setColors] = useState<string[]>([]);
+  const [colors, setColors] = useState<ColorResult[]>([]);
   const [pastedImage, setPastedImage] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -101,38 +143,33 @@ const ExtractorPage: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-black py-8"
+      className="h-screen overflow-hidden flex flex-col bg-black py-4"
     >
-      <div className="container mx-auto">
-        <header className="mb-8 flex items-center justify-between">
-          <motion.button 
+      <div className="container mx-auto flex flex-col h-full">
+        <header className="mb-4 flex items-center justify-between">
+          <button 
             onClick={() => navigate('/')}
-            className="flex items-center px-4 py-2 rounded-full bg-gray-900 text-purple-400 border border-purple-500 box-glow hover:bg-gray-800 transition-all"
-            whileHover={{ 
-              scale: 1.05,
-              boxShadow: "0 0 20px rgba(168, 85, 247, 0.5)"
-            }}
-            whileTap={{ scale: 0.98 }}
+            className="flex items-center px-4 py-2 rounded-full bg-gray-900 text-purple-400 border border-purple-500 hover:bg-purple-900/30 transition-all tech-font"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            返回首页
-          </motion.button>
+            Back
+          </button>
           <motion.h1 
-            className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500"
+            className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 tech-font"
             animate={{ 
               textShadow: ["0 0 5px rgba(168,85,247,0.3)", "0 0 15px rgba(168,85,247,0.7)", "0 0 5px rgba(168,85,247,0.3)"] 
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            图片颜色提取
+            Image Color Extractor
           </motion.h1>
           <div className="w-24"></div> {/* Spacer to center the title */}
         </header>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8 card-like p-6">
+        <div className="flex-grow flex flex-col max-w-4xl mx-auto w-full">
+          <div className="flex-grow bg-gray-900 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl overflow-hidden flex items-center justify-center">
             <ImageUploader onImageLoaded={handleImageLoaded} initialImage={pastedImage} />
           </div>
           
@@ -141,10 +178,10 @@ const ExtractorPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mb-8 card-like p-6"
+              className="mt-3 card-like px-3 py-2 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-sm rounded-xl"
             >
-              <h2 className="text-xl font-semibold mb-4 text-purple-400">提取的颜色</h2>
-              <ColorPalette colors={colors} />
+              <h2 className="text-lg font-semibold mb-1 text-purple-400 tech-font">Extracted Colors</h2>
+              <ExtractedColors colors={colors} />
             </motion.div>
           )}
         </div>

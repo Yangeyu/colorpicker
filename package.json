@@ -20,8 +20,10 @@
     "framer-motion": "^12.6.3",
     "motion": "^12.6.3",
     "react": "^19.0.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
+    "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.5.0",
     "tailwind-merge": "^3.1.0",
     "unsplash-js": "^7.0.19"
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
+    "@types/react-copy-to-clipboard": "^5.0.7",
     "@types/react-dom": "^19.0.4",
     "@unocss/preset-attributify": "66.1.0-beta.9",
     "@unocss/preset-typography": "66.1.0-beta.9",

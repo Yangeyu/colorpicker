@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import { LoadingProvider, useLoading } from './utils/LoadingContext'
 import LoadingScreen from './components/LoadingScreen'
+import { Toaster } from 'react-hot-toast'
 
 // 页面组件
 import HomePage from './pages/HomePage'
@@ -28,6 +29,24 @@ const AppContent: React.FC = () => {
   return (
     <>
       {isLoading && <LoadingScreen />}
+      
+      {/* Toast notifications */}
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#1f2937',
+            color: '#fff',
+            border: '1px solid #4b5563',
+          },
+          success: {
+            iconTheme: {
+              primary: '#a855f7',
+              secondary: '#1f2937',
+            },
+          }
+        }}
+      />
       
       {/* 即使在加载中也预先渲染Routes，但用绝对定位和z-index使其位于加载屏幕之下 */}
       <div className={`min-h-screen w-full bg-black ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
