@@ -13,6 +13,8 @@
     "@heroui/react": "^2.7.5",
     "@heroui/tabs": "^2.2.13",
     "@heroui/toast": "^2.0.6",
+    "@splinetool/react-spline": "^4.0.0",
+    "@splinetool/runtime": "^1.9.82",
     "clsx": "^2.1.1",
     "colorthief": "^2.6.0",
     "framer-motion": "^12.6.3",
@@ -20,7 +22,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
-    "tailwind-merge": "^3.1.0"
+    "react-router-dom": "^7.5.0",
+    "tailwind-merge": "^3.1.0",
+    "unsplash-js": "^7.0.19"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
