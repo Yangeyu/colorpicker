@@ -1,0 +1,106 @@
+import { useState } from 'react';
+import { copyToClipboard } from '../utils/colorUtils';
+
+interface ColorPaletteProps {
+  colors: string[];
+}
+
+const ColorPalette = ({ colors }: ColorPaletteProps) => {
+  const [copiedColor, setCopiedColor] = useState<string | null>(null);
+  const [customColor, setCustomColor] = useState<string>('#8cb368');
+  
+  const handleCopyColor = async (color: string) => {
+    await copyToClipboard(color);
+    setCopiedColor(color);
+    setTimeout(() => setCopiedColor(null), 1500);
+  };
+  
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomColor(e.target.value);
+  };
+  
+  return (
+    <div className="w-full overflow-hidden">
+      <h3 className="text-lg font-medium mb-4" style={{ color: "var(--color-primary-dark)" }}>提取的颜色</h3>
+      <div className="flex flex-wrap gap-4 max-w-full">
+        {colors.map((color, index) => (
+          <div 
+            key={`${color}-${index}`}
+            className="flex-shrink-0"
+          >
+            <div 
+              className="w-14 h-14 rounded-lg cursor-pointer relative hover:scale-105 transition-transform"
+              style={{ 
+                backgroundColor: color,
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)"
+              }}
+              onClick={() => handleCopyColor(color)}
+              title={`点击复制: ${color}`}
+            >
+              {copiedColor === color && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                  <span className="text-white font-medium">已复制!</span>
+                </div>
+              )}
+            </div>
+            <span className="mt-1.5 font-mono text-xs text-center block truncate w-14" style={{ color: "var(--color-neutral-600)" }}>
+              {color}
+            </span>
+          </div>
+        ))}
+        
+        {/* 颜色吸取器 */}
+        <div className="flex-shrink-0 flex flex-col items-center">
+          <div className="relative w-14 h-14 rounded-lg overflow-hidden" style={{ 
+            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)"
+          }}>
+            <input
+              type="color"
+              value={customColor}
+              onChange={handleColorChange}
+              className="absolute left-0 top-0 w-16 h-16 cursor-pointer opacity-0"
+              aria-label="选择自定义颜色"
+            />
+            <div 
+              className="w-full h-full flex items-center justify-center"
+              style={{ backgroundColor: customColor }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill={isLightColor(customColor) ? '#000' : '#fff'}>
+                <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L6 9.657v4.586h4.243z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <div
+            onClick={() => handleCopyColor(customColor)}
+            className="mt-1.5 w-14 text-center truncate font-mono text-xs cursor-pointer"
+            style={{ color: "var(--color-neutral-600)" }}
+            title={`点击复制: ${customColor}`}
+          >
+            {customColor}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 判断颜色是否为亮色，用于决定文字/图标颜色
+function isLightColor(color: string): boolean {
+  // 移除#并转换为RGB
+  const hex = color.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  // 计算亮度 (HSP色彩模型)
+  const hsp = Math.sqrt(
+    0.299 * (r * r) +
+    0.587 * (g * g) +
+    0.114 * (b * b)
+  );
+  
+  // 亮度大于127.5认为是亮色
+  return hsp > 127.5;
+}
+
+export default ColorPalette; 
