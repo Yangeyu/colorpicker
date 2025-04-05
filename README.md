@@ -1,54 +1,50 @@
-# React + TypeScript + Vite
+# 颜色提取工具
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个现代化的颜色提取和选择工具，基于React和TypeScript构建，使用了Linear风格的UI设计。
 
-Currently, two official plugins are available:
+## 功能特点
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **图片颜色提取**：上传图片或通过剪贴板粘贴，自动提取主要颜色和调色板
+- **颜色选择器**：直观的颜色选择界面，支持自定义颜色和预设颜色
+- **便捷操作**：支持拖放上传、剪贴板粘贴和一键复制颜色代码
+- **现代UI**：采用淡草绿色的Linear风格设计，界面简洁美观
+- **响应式设计**：完美适配各种屏幕尺寸
 
-## Expanding the ESLint configuration
+## 技术栈
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 18
+- TypeScript
+- Vite
+- TailwindCSS
+- ColorThief (颜色提取)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 本地开发
+
+```bash
+# 安装依赖
+npm install
+# 或
+pnpm install
+
+# 启动开发服务器
+npm run dev
+# 或
+pnpm dev
+
+# 构建生产版本
+npm run build
+# 或
+pnpm build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 使用方法
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. 通过顶部标签页切换颜色提取和颜色选择功能
+2. 在颜色提取模式下，拖放图片或点击上传区域选择图片
+3. 也可以直接通过Ctrl+V粘贴剪贴板中的图片
+4. 点击提取的颜色块可以复制颜色代码
+5. 在颜色选择器模式下，通过颜色选择器或预设颜色选择所需颜色
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 许可证
+
+MIT
