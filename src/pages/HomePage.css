@@ -75,19 +75,54 @@ body {
 }
 
 .feature-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(129, 54, 193, 0.3));
-  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  background: rgba(23, 23, 23, 0.9);
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .feature-card:hover .feature-icon {
+  transform: scale(1.08) rotate(-3deg);
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 
+    0 0 20px rgba(168, 85, 247, 0.3),
+    inset 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.feature-card:hover .feature-icon::before {
+  opacity: 1;
+}
+
+.feature-icon svg {
+  width: 28px;
+  height: 28px;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.feature-card:hover .feature-icon svg {
   transform: scale(1.1);
+  color: rgba(255, 255, 255, 1);
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
 }
 
 /* 卡片箭头 */
@@ -103,18 +138,6 @@ body {
   opacity: 1;
   color: var(--color-primary);
   transform: translateX(5px);
-}
-
-/* Spline 容器样式 */
-.spline-container {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-}
-
-.spline-scene {
-  width: 100%;
-  height: 100%;
 }
 
 /* 粘贴提示样式 */

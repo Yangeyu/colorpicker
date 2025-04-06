@@ -90,14 +90,14 @@ const HomePage: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
           >
             <motion.h1 
               className="text-4xl pb-10 sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500"
               animate={{ 
                 textShadow: ["0 0 5px rgba(168,85,247,0.3)", "0 0 15px rgba(168,85,247,0.7)", "0 0 5px rgba(168,85,247,0.3)"] 
               }}
-              transition={{ duration: 2, repeat: Infinity }}
+              transition={{ duration: 1.5, repeat: Infinity }}
             >
               Color Extraction Tool
             </motion.h1>
@@ -109,16 +109,16 @@ const HomePage: React.FC = () => {
               <motion.div
                 className="feature-card"
                 whileHover={{ 
-                  scale: 1.03, 
+                  scale: 1.02, 
                   boxShadow: "0 0 25px rgba(168,85,247,0.5)",
                   border: "1px solid rgba(168,85,247,0.8)"
                 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
                 onClick={() => handleCardClick('/extractor')}
               >
                 <div className="feature-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--color-neutral-700)" }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-purple-400">Image Color Extractor</h3>
@@ -132,16 +132,16 @@ const HomePage: React.FC = () => {
               <motion.div
                 className="feature-card"
                 whileHover={{ 
-                  scale: 1.03, 
+                  scale: 1.02, 
                   boxShadow: "0 0 25px rgba(236,72,153,0.5)",
                   border: "1px solid rgba(236,72,153,0.8)"
                 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
                 onClick={() => handleCardClick('/picker')}
               >
-                <div className="feature-icon" style={{ background: "linear-gradient(135deg, rgba(236,72,153,0.7), rgba(168,85,247,0.3))" }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "var(--color-neutral-700)" }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                <div className="feature-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-pink-400">Color Picker</h3>
@@ -159,12 +159,16 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Spline 3D背景 */}
-      <div className="fixed inset-0 z-0 overflow-hidden spline-container">
+      <div className="fixed inset-0 z-0 overflow-hidden">
         {!localSplineLoaded && (
           <div className="w-full h-full bg-black flex items-center justify-center">
             <div className="w-12 h-12 border-4 border-t-primary border-neutral-800 rounded-full animate-spin"></div>
           </div>
         )}
+        <Spline
+          className="size-full absolute -z-1"
+          scene="https://prod.spline.design/iBjg3wbDtoIGpOjq/scene.splinecode"
+        />
         <Spline 
           scene="https://prod.spline.design/6FHEcxFacsTSn5US/scene.splinecode" 
           onLoad={handleSplineLoad}
@@ -173,8 +177,9 @@ const HomePage: React.FC = () => {
             setLocalSplineLoaded(true); // 即使加载失败也显示内容
             setSplineLoaded(true);
           }}
-          className="spline-scene"
+          className="size-full z-2"
         />
+        <div className="absolute bottom-0 right-0 h-20 w-50 bg-gradient-to-t from-black via-black to-transparent z-1 backdrop-blur-sm"></div>
         {/* 紫色光晕覆盖层 */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black opacity-70"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-40"></div>
