@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import ImageUploader from './ImageUploader';
 import ColorPalette from './ColorPalette';
-import { getDominantColor, getColorPalette, copyToClipboard } from '../utils/colorUtils';
+import { getDominantColor, getColorPalette } from '../utils/colorUtils';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-hot-toast';
 
 const ColorExtractor = () => {
   const [dominantColor, setDominantColor] = useState<string | null>(null);
@@ -9,7 +11,6 @@ const ColorExtractor = () => {
   const [loading, setLoading] = useState(false);
   const [showTip, setShowTip] = useState(true);
   const [hasImage, setHasImage] = useState(false);
-  const [copiedMainColor, setCopiedMainColor] = useState(false);
 
   const handleImageLoaded = async (img: HTMLImageElement) => {
     try {
@@ -31,12 +32,8 @@ const ColorExtractor = () => {
     }
   };
 
-  const handleCopyMainColor = async () => {
-    if (!dominantColor) return;
-    
-    await copyToClipboard(dominantColor);
-    setCopiedMainColor(true);
-    setTimeout(() => setCopiedMainColor(false), 1500);
+  const handleCopy = (color: string) => {
+    toast.success(`已复制: ${color}`);
   };
 
   return (
@@ -73,20 +70,18 @@ const ColorExtractor = () => {
             <div>
               <h3 className="text-lg font-medium mb-3" style={{ color: "var(--color-primary-dark)" }}>主要颜色</h3>
               <div className="flex items-center gap-4">
-                <div 
-                  className="w-14 h-14 rounded-lg cursor-pointer relative hover:scale-105 transition-transform"
-                  style={{ 
-                    backgroundColor: dominantColor,
-                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)"
-                  }}
-                  onClick={handleCopyMainColor}
+                <CopyToClipboard
+                  text={dominantColor}
+                  onCopy={() => handleCopy(dominantColor)}
                 >
-                  {copiedMainColor && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                      <span className="text-white font-medium">已复制!</span>
-                    </div>
-                  )}
-                </div>
+                  <div 
+                    className="w-14 h-14 rounded-lg cursor-pointer relative hover:scale-105 transition-transform"
+                    style={{ 
+                      backgroundColor: dominantColor,
+                      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)"
+                    }}
+                  />
+                </CopyToClipboard>
                 <div>
                   <span className="font-mono text-sm uppercase block">{dominantColor}</span>
                   <span className="text-xs mt-1 block" style={{ color: "var(--color-neutral-500)" }}>点击颜色方块复制</span>

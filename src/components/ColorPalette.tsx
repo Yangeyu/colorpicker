@@ -1,18 +1,16 @@
 import { useState } from 'react';
-import { copyToClipboard } from '../utils/colorUtils';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-hot-toast';
 
 interface ColorPaletteProps {
   colors: string[];
 }
 
 const ColorPalette = ({ colors }: ColorPaletteProps) => {
-  const [copiedColor, setCopiedColor] = useState<string | null>(null);
   const [customColor, setCustomColor] = useState<string>('#8cb368');
   
-  const handleCopyColor = async (color: string) => {
-    await copyToClipboard(color);
-    setCopiedColor(color);
-    setTimeout(() => setCopiedColor(null), 1500);
+  const handleCopy = (color: string) => {
+    toast.success(`已复制: ${color}`);
   };
   
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,21 +25,19 @@ const ColorPalette = ({ colors }: ColorPaletteProps) => {
             key={`${color}-${index}`}
             className="flex-shrink-0"
           >
-            <div 
-              className="w-16 h-16 rounded-lg cursor-pointer relative hover:scale-105 transition-transform shadow-lg"
-              style={{ 
-                backgroundColor: color,
-                boxShadow: `0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05)`,
-              }}
-              onClick={() => handleCopyColor(color)}
-              title={`点击复制: ${color}`}
+            <CopyToClipboard
+              text={color}
+              onCopy={() => handleCopy(color)}
             >
-              {copiedColor === color && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg backdrop-filter backdrop-blur-sm">
-                  <span className="text-white font-medium tech-font">已复制!</span>
-                </div>
-              )}
-            </div>
+              <div 
+                className="w-16 h-16 rounded-lg cursor-pointer relative hover:scale-105 transition-transform shadow-lg"
+                style={{ 
+                  backgroundColor: color,
+                  boxShadow: `0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05)`,
+                }}
+                title={`点击复制: ${color}`}
+              />
+            </CopyToClipboard>
             <span className="mt-2 font-mono text-xs text-center block truncate w-16 text-gray-300">
               {color}
             </span>
@@ -69,13 +65,17 @@ const ColorPalette = ({ colors }: ColorPaletteProps) => {
               </svg>
             </div>
           </div>
-          <div
-            onClick={() => handleCopyColor(customColor)}
-            className="mt-2 w-16 text-center truncate font-mono text-xs cursor-pointer text-gray-300"
-            title={`点击复制: ${customColor}`}
+          <CopyToClipboard
+            text={customColor}
+            onCopy={() => handleCopy(customColor)}
           >
-            {customColor}
-          </div>
+            <div
+              className="mt-2 w-16 text-center truncate font-mono text-xs cursor-pointer text-gray-300"
+              title={`点击复制: ${customColor}`}
+            >
+              {customColor}
+            </div>
+          </CopyToClipboard>
         </div>
       </div>
     </div>
