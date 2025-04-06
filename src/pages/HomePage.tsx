@@ -161,28 +161,40 @@ const HomePage: React.FC = () => {
       {/* Spline 3D背景 */}
       <div className="fixed inset-0 z-0 overflow-hidden">
         {!localSplineLoaded && (
-          <div className="w-full h-full bg-black flex items-center justify-center">
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-full bg-black flex items-center justify-center"
+          >
             <div className="w-12 h-12 border-4 border-t-primary border-neutral-800 rounded-full animate-spin"></div>
-          </div>
+          </motion.div>
         )}
-        <Spline
-          className="size-full absolute -z-1"
-          scene="https://prod.spline.design/iBjg3wbDtoIGpOjq/scene.splinecode"
-        />
-        <Spline 
-          scene="https://prod.spline.design/6FHEcxFacsTSn5US/scene.splinecode" 
-          onLoad={handleSplineLoad}
-          onError={(err) => {
-            console.error('Spline loading error:', err);
-            setLocalSplineLoaded(true); // 即使加载失败也显示内容
-            setSplineLoaded(true);
-          }}
-          className="size-full z-2"
-        />
-        <div className="absolute bottom-0 right-0 h-20 w-50 bg-gradient-to-t from-black via-black to-transparent z-1 backdrop-blur-sm"></div>
-        {/* 紫色光晕覆盖层 */}
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black opacity-70"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-40"></div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: localSplineLoaded ? 1 : 0 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          className="w-full h-full relative"
+        >
+          <Spline
+            className="size-full absolute -z-1"
+            scene="https://prod.spline.design/iBjg3wbDtoIGpOjq/scene.splinecode"
+          />
+          <Spline 
+            scene="https://prod.spline.design/6FHEcxFacsTSn5US/scene.splinecode" 
+            onLoad={handleSplineLoad}
+            onError={(err) => {
+              console.error('Spline loading error:', err);
+              setLocalSplineLoaded(true); // 即使加载失败也显示内容
+              setSplineLoaded(true);
+            }}
+            className="size-full z-2"
+          />
+          <div className="absolute bottom-0 right-0 h-20 w-50 bg-gradient-to-t from-black via-black to-transparent z-1 backdrop-blur-sm"></div>
+          {/* 紫色光晕覆盖层 */}
+          <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black opacity-70"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-40"></div>
+        </motion.div>
       </div>
 
       {/* 浮动按钮 */}
