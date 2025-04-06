@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 import ImageUploader from '../components/ImageUploader';
 import ExtractedColors from '../components/ExtractedColors';
-import { ColorResult } from '../types';
+import { ColorResult } from '../types/index';
 import { useLoading } from '../utils/LoadingContext';
-import useImageProcessor from '../utils/useImageProcessor';
-
-// Color processing is now handled by the web worker for better performance
+import useOptimize from '../utils/useOptimize';
 
 const ExtractorPage: React.FC = () => {
   const [colors, setColors] = useState<ColorResult[]>([]);
@@ -16,7 +14,7 @@ const ExtractorPage: React.FC = () => {
   const { setSplineLoaded: setGlobalSplineLoaded } = useLoading();
   const navigate = useNavigate();
   // Use our optimization hook for image processing
-  const { processImage, isProcessing } = useImageProcessor({ sampleRate: 2 });
+  const { processImage, isProcessing } = useOptimize();
 
   // Handle Spline load
   const handleSplineLoad = () => {
@@ -105,20 +103,17 @@ const ExtractorPage: React.FC = () => {
             />
           </div>
           
-          <AnimatePresence>
-            {colors.length > 0 && (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="mt-3 card-like px-3 py-2 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-sm rounded-xl"
-              >
-                <h2 className="text-lg font-semibold mb-1 text-purple-400 tech-font">Extracted Colors</h2>
-                <ExtractedColors colors={colors} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {colors.length > 0 && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-3 card-like px-3 py-2 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-sm rounded-xl"
+            >
+              <h2 className="text-lg font-semibold mb-1 text-purple-400 tech-font">Extracted Colors</h2>
+              <ExtractedColors colors={colors} />
+            </motion.div>
+          )}
         </div>
       </div>
     </motion.div>

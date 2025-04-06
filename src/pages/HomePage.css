@@ -269,4 +269,21 @@ body {
 
 .border-t-primary {
   border-top-color: var(--color-primary);
+}
+
+/* 图片模糊到清晰过渡效果 */
+.image-blur-transition {
+  transition: filter 0.8s ease-out, opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.image-loading {
+  filter: blur(15px);
+  opacity: 0.7;
+  transform: scale(1.03);
+}
+
+.image-loaded {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
 } 
