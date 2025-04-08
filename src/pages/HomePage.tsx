@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import FloatingButton from '../components/FloatingButton/FloatingButton';
 import './HomePage.css';
 import { useLoading } from '../utils/LoadingContext';
-
+import LluidButton from '../components/fluid-button/index';
 // 粘贴提示组件
 const PasteHint = () => (
   <div className="paste-hint">
@@ -198,7 +198,7 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* 浮动按钮 */}
-      {/* <FloatingButton /> */}
+      <LluidButton href='https://github.com/Yangeyu/colorpicker'/>
     </div>
   );
 };

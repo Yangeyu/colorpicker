@@ -13,7 +13,7 @@ const LoadingScreen: React.FC = () => {
         className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black"
       >
         <motion.div
-          className="relative w-48 h-48"
+          className="relative w-64 h-64" /* Increased size from w-48 h-48 to w-64 h-64 */
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -21,8 +21,8 @@ const LoadingScreen: React.FC = () => {
         >
           {/* 主要加载SVG动画 */}
           <svg 
-            width="192" 
-            height="192" 
+            width="256" 
+            height="256" 
             viewBox="0 0 192 192" 
             xmlns="http://www.w3.org/2000/svg"
             className="absolute inset-0"
@@ -156,17 +156,17 @@ const LoadingScreen: React.FC = () => {
               />
             </motion.g>
             
-            {/* 中心脉冲球 - 扩散效果 */}
+            {/* 中心脉冲球 - 增强扩散效果 */}
             <motion.circle 
               cx="96" 
               cy="96" 
-              r="26" 
+              r="32" /* 增大初始半径 from 26 to 32 */
               fill="url(#gradient3)"
               filter="url(#glow)"
-              initial={{ opacity: 0.6 }}
+              initial={{ opacity: 0.7 }} /* 增加初始不透明度 */
               animate={{ 
-                opacity: [0.6, 0.8, 0.6],
-                r: [26, 34, 26]
+                opacity: [0.7, 0.9, 0.7], /* 增强不透明度变化范围 */
+                r: [32, 48, 32] /* 增大扩散范围 */
               }}
               transition={{ 
                 duration: 3, 
@@ -200,7 +200,7 @@ const LoadingScreen: React.FC = () => {
               
               {/* 发光滤镜效果 */}
               <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feGaussianBlur stdDeviation="8" result="blur" /> 
                 <feComposite in="SourceGraphic" in2="blur" operator="over" />
               </filter>
             </defs>
@@ -372,10 +372,83 @@ const LoadingScreen: React.FC = () => {
               repeatType: "loop"
             }}
           />
+          
+          {/* 新增粒子 7 - 中等粒子 */}
+          <motion.div 
+            className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-purple-500"
+            style={{ translateX: 75, translateY: -35 }}
+            animate={{ 
+              x: [0, 20, -10, 0],
+              y: [0, -15, -5, 0],
+              opacity: [0, 0.8, 0]
+            }}
+            transition={{ 
+              duration: 5, 
+              repeat: Infinity,
+              ease: "easeInOut",
+              times: [0, 0.4, 0.8, 1],
+              delay: 0.3,
+              repeatType: "loop"
+            }}
+          />
+          
+          {/* 新增粒子 8 - 中等粒子 */}
+          <motion.div 
+            className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full bg-pink-400"
+            style={{ translateX: -80, translateY: -40 }}
+            animate={{ 
+              x: [0, -25, -5, 0],
+              y: [0, -20, 10, 0],
+              opacity: [0, 0.9, 0]
+            }}
+            transition={{ 
+              duration: 4.8, 
+              repeat: Infinity,
+              ease: "easeInOut",
+              times: [0, 0.35, 0.75, 1],
+              delay: 1.2,
+              repeatType: "loop"
+            }}
+          />
+          
+          {/* 新增粒子 9 - 大粒子 */}
+          <motion.div 
+            className="absolute top-1/2 left-1/2 w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+            style={{ translateX: 10, translateY: 70 }}
+            animate={{ 
+              x: [0, 30, 10, 0],
+              y: [0, 20, 40, 0],
+              opacity: [0, 0.7, 0]
+            }}
+            transition={{ 
+              duration: 6, 
+              repeat: Infinity,
+              ease: "easeInOut",
+              times: [0, 0.3, 0.7, 1],
+              delay: 0.8,
+              repeatType: "loop"
+            }}
+          />
+          
+          {/* 新增粒子 10 - 闪烁粒子 */}
+          <motion.div 
+            className="absolute top-1/2 left-1/2 w-1 h-1 rounded-full bg-white"
+            style={{ translateX: -20, translateY: -75 }}
+            animate={{ 
+              scale: [0.8, 1.5, 0.8],
+              opacity: [0, 1, 0]
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity,
+              ease: "easeInOut",
+              repeatType: "loop"
+            }}
+          />
         </motion.div>
       </motion.div>
     </AnimatePresence>
   );
 };
 
-export default LoadingScreen; 
+export default LoadingScreen;
