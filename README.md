@@ -1,50 +1,111 @@
-# 颜色提取工具
+# Color Tool
 
-一个现代化的颜色提取和选择工具，基于React和TypeScript构建，使用了Linear风格的UI设计。
+A modern web application for color extraction and palette generation, built with React, TypeScript, and Vite. Featuring a sleek, dark, tech-inspired UI with smooth animations and 3D backgrounds.
 
-## 功能特点
+This tool offers two main features: extracting colors from images and generating color palettes.
 
-- **图片颜色提取**：上传图片或通过剪贴板粘贴，自动提取主要颜色和调色板
-- **颜色选择器**：直观的颜色选择界面，支持自定义颜色和预设颜色
-- **便捷操作**：支持拖放上传、剪贴板粘贴和一键复制颜色代码
-- **现代UI**：采用淡草绿色的Linear风格设计，界面简洁美观
-- **响应式设计**：完美适配各种屏幕尺寸
+## Features
 
-## 技术栈
+### 1. Image Color Extractor
+- **Effortless Input**: Extract colors from any image by simply pasting it (Ctrl+V / ⌘+V) directly onto the page.
+- **Dominant Color Analysis**: Automatically identifies and displays the most prominent colors in the image.
+- **Multiple Formats**: Copy extracted color codes in HEX, RGB, or HSL format with a single click.
+- **Interactive Visualization**: Features an engaging 3D background powered by Spline.
 
-- React 18
-- TypeScript
-- Vite
-- TailwindCSS
-- ColorThief (颜色提取)
+### 2. Color Palette Generator
+- **Harmonious Palettes**: Generates various color palettes (e.g., complementary, analogous, monochromatic) based on your selected color.
+- **Interactive Picker**: Use the intuitive color picker to choose your base color with real-time previews.
+- **Format Flexibility**: View and copy palette colors in HEX, RGB, or HSL.
+- **Smooth Experience**: Includes a separate 3D background and seamless transitions.
 
-## 本地开发
+## Tech Stack
 
-```bash
-# 安装依赖
-npm install
-# 或
-pnpm install
+- **Frontend**: React 18, TypeScript
+- **Styling**: TailwindCSS
+- **Animation**: Framer Motion
+- **3D Rendering**: Spline (@splinetool/react-spline)
+- **Notifications**: React Hot Toast
+- **Build Tool**: Vite
+- **Package Manager**: pnpm (recommended), npm
 
-# 启动开发服务器
-npm run dev
-# 或
-pnpm dev
+## Getting Started
 
-# 构建生产版本
-npm run build
-# 或
-pnpm build
+### Prerequisites
+
+- Node.js (v16 or higher)
+- pnpm (or npm)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [repository-url] # Replace [repository-url] with the actual URL
+    cd color-tool
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    pnpm install
+    ```
+    *(If using npm, run `npm install`)*
+
+3.  **Start the development server:**
+    ```bash
+    pnpm dev
+    ```
+    *(If using npm, run `npm run dev`)*
+
+The application will typically be available at `http://localhost:5173`.
+
+## Usage Guide
+
+### Extracting Colors from an Image
+1.  Navigate to the **Image Color Extractor** section from the home page.
+2.  Copy an image to your clipboard (e.g., from a website or file explorer).
+3.  Paste the image onto the extractor page (Ctrl+V / ⌘+V).
+4.  The dominant colors will be displayed.
+5.  Click on any color swatch to copy its code (format depends on the selected option).
+
+### Generating Color Palettes
+1.  Navigate to the **Color Palettes** section from the home page.
+2.  Use the color picker at the top to select a base color.
+3.  The generated palettes (Monochromatic, Analogous, etc.) will update automatically.
+4.  Choose your desired output format (HEX, RGB, HSL).
+5.  Click on any color swatch within the palettes to copy its code in the selected format.
+
+## Development
+
+### Project Structure
+```plaintext
+src/
+├── App.tsx             # Main application component with routing
+├── main.tsx            # Application entry point
+├── index.css           # Global styles
+├── App.css             # App-specific styles
+├── components/         # Reusable UI components (ColorPicker, Palettes, etc.)
+├── pages/              # Page components (HomePage, ExtractorPage, PalettePage)
+├── utils/              # Utility functions (LoadingContext, colorUtils)
+└── assets/             # Static assets (Spline scenes, SVGs)
+public/                 # Public assets (e.g., vite.svg)
+.eslintrc.js          # ESLint configuration
+.gitignore              # Git ignore rules
+package.json            # Project metadata and dependencies
+pnpm-lock.yaml        # Exact dependency versions
+README.md               # This file
+tsconfig.json           # TypeScript base configuration
+vite.config.ts          # Vite configuration
 ```
 
-## 使用方法
+### Building for Production
 
-1. 通过顶部标签页切换颜色提取和颜色选择功能
-2. 在颜色提取模式下，拖放图片或点击上传区域选择图片
-3. 也可以直接通过Ctrl+V粘贴剪贴板中的图片
-4. 点击提取的颜色块可以复制颜色代码
-5. 在颜色选择器模式下，通过颜色选择器或预设颜色选择所需颜色
+To create an optimized production build:
+```bash
+pnpm build
+```
+*(If using npm, run `npm run build`)*
 
-## 许可证
+This command bundles the application and outputs the static files to the `dist/` directory.
 
-MIT
+## License
+
+This project is licensed under the MIT License. Feel free to use, modify, and distribute it for personal or commercial purposes.
