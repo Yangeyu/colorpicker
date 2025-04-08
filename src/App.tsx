@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast'
 // 页面组件
 import HomePage from './pages/HomePage'
 import ExtractorPage from './pages/ExtractorPage'
-import PickerPage from './pages/PickerPage'
+import PalettePage from './pages/PalettePage'
 
 // 包装应用的组件，处理加载状态
 const AppContent: React.FC = () => {
@@ -53,7 +53,7 @@ const AppContent: React.FC = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/extractor" element={<ExtractorPage />} />
-          <Route path="/picker" element={<PickerPage />} />
+          <Route path="/palette" element={<PalettePage />} />
         </Routes>
       </div>
     </>

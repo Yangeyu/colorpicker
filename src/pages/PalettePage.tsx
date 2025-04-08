@@ -80,7 +80,7 @@ const PickerPage: React.FC = () => {
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            Color Picker
+            Color Palettes
           </motion.h1>
           <div className="w-24"></div> {/* Spacer to center the title */}
         </header>
