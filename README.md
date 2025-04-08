@@ -20,8 +20,8 @@ This tool offers two main features: extracting colors from images and generating
 
 ## Tech Stack
 
-- **Frontend**: React 18, TypeScript
-- **Styling**: TailwindCSS
+- **Frontend**: React 19, TypeScript
+- **Styling**: UnoCSS, TailwindCSS
 - **Animation**: Framer Motion
 - **3D Rendering**: Spline (@splinetool/react-spline)
 - **Notifications**: React Hot Toast
@@ -86,14 +86,17 @@ src/
 ├── pages/              # Page components (HomePage, ExtractorPage, PalettePage)
 ├── utils/              # Utility functions (LoadingContext, colorUtils)
 └── assets/             # Static assets (Spline scenes, SVGs)
-public/                 # Public assets (e.g., vite.svg)
-.eslintrc.js          # ESLint configuration
-.gitignore              # Git ignore rules
-package.json            # Project metadata and dependencies
-pnpm-lock.yaml        # Exact dependency versions
-README.md               # This file
-tsconfig.json           # TypeScript base configuration
-vite.config.ts          # Vite configuration
+public/                 # Public assets
+.eslintrc.js           # ESLint configuration
+.gitignore             # Git ignore rules
+package.json           # Project metadata and dependencies
+pnpm-lock.yaml         # Exact dependency versions
+README.md              # This file
+tsconfig.json          # TypeScript base configuration
+tsconfig.app.json      # TypeScript app configuration
+tsconfig.node.json     # TypeScript node configuration
+vite.config.ts         # Vite configuration
+uno.config.ts          # UnoCSS configuration
 ```
 
 ### Building for Production
