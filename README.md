@@ -4,6 +4,8 @@ A modern web application for color extraction and palette generation, built with
 
 This tool offers two main features: extracting colors from images and generating color palettes.
 
+**Live Demo**: [https://www.colorextr.top/](https://www.colorextr.top/)
+
 ## Features
 
 ### 1. Image Color Extractor
