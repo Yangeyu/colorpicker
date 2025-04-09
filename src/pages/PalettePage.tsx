@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import ColorPicker from '../components/ColorPicker';
 import ColorPalettes from '../components/ColorPalettes';
 import Spline from '@splinetool/react-spline';
+import BackButton from '../components/BackButton';
 import { useLoading } from '../utils/LoadingContext';
 import { generateColorPalettes } from '../utils/colorUtils';
 
@@ -13,7 +13,6 @@ const PickerPage: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState('#a855f7');
   const [colorFormat, setColorFormat] = useState<ColorFormat>('hex');
   const [colorPalettes, setColorPalettes] = useState(() => generateColorPalettes(selectedColor));
-  const navigate = useNavigate();
   const { setSplineLoaded: setGlobalSplineLoaded } = useLoading();
 
   // Update color palettes when the selected color changes
@@ -64,15 +63,7 @@ const PickerPage: React.FC = () => {
 
       <div className="container mx-auto relative z-10 flex flex-col h-full">
         <header className="mb-8 flex items-center justify-between">
-          <button 
-            onClick={() => navigate('/')}
-            className="flex items-center px-4 py-2 rounded-full bg-gray-900 text-purple-400 border border-purple-500 hover:bg-purple-900/30 transition-all tech-font"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back
-          </button>
+          <BackButton />
           <motion.h1 
             className="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 tech-font"
             animate={{ 

@@ -103,9 +103,6 @@ const HomePage: React.FC = () => {
               Color Extraction Tool
             </motion.h1>
             
-            
-
-            
             <div className="flex flex-col flex-row gap-8 mt-12 mb-16">
               <motion.div
                 className="feature-card"
