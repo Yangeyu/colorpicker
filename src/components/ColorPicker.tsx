@@ -139,7 +139,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     <>
       {/* Header row with title and format options */}
       <div className="flex justify-between items-center mb-2">
-        <h2 className="text-lg font-semibold text-purple-400 tech-font">Selected Color</h2>
+        <h2 className="text-lg font-medium text-purple-400 tech-font">Selected Color</h2>
         
         <div className="flex bg-gray-800 rounded-full p-0.5 gap-1">
           <motion.button 

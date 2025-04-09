@@ -23,7 +23,7 @@ This tool offers two main features: extracting colors from images and generating
 ## Tech Stack
 
 - **Frontend**: React 19, TypeScript
-- **Styling**: UnoCSS, TailwindCSS
+- **Styling**: UnoCSS
 - **Animation**: Framer Motion
 - **3D Rendering**: Spline (@splinetool/react-spline)
 - **Notifications**: React Hot Toast
