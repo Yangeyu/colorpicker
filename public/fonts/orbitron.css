@@ -1,0 +1,36 @@
+/* Orbitron Font */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./orbitron/orbitron-light-webfont.woff') format('woff'),
+       url('./orbitron/orbitron-light-webfont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./orbitron/orbitron-medium-webfont.woff') format('woff'),
+       url('./orbitron/orbitron-medium-webfont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./orbitron/orbitron-bold-webfont.woff') format('woff'),
+       url('./orbitron/orbitron-bold-webfont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('./orbitron/orbitron-black-webfont.woff') format('woff'),
+       url('./orbitron/orbitron-black-webfont.ttf') format('truetype');
+} 
