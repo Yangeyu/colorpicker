@@ -116,7 +116,7 @@
   color: var(--color-neutral-300);
   font-size: 0.95rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  animation: pulse 3s infinite;
+  animation: pint-pulse 3s infinite;
   margin-bottom: 2rem;
   justify-content: center;
   max-width: 600px;

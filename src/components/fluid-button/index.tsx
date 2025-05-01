@@ -1,21 +1,41 @@
-import React, { useState } from "react";
-import { motion, Variants } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import "./index.css";
 
 interface FluidButtonProps {
   onClick?: () => void;
-  href?: string;
 }
 
-const FluidButton: React.FC<FluidButtonProps> = ({ onClick, href }) => {
+const FluidButton: React.FC<FluidButtonProps> = ({ onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
+  
+  useEffect(() => {
+    if (message) {
+      setIsMessageVisible(true);
+      // Auto-hide message after 10 seconds
+      const timer = setTimeout(() => {
+        setIsMessageVisible(false);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleClick = () => {
     if (onClick) {
-      onClick();
-    } else if (href) {
-      window.open(href, "_blank");
+      return onClick();
     }
+    
+    fetch('https://rizzapi.vercel.app/random')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setMessage(data.text);
+      })
+      .catch(error => {
+        console.error('Error fetching Rizzapi:', error);
+      });
   };
 
   // Create variants for smoother transitions with consistent timing
@@ -140,12 +160,98 @@ const FluidButton: React.FC<FluidButtonProps> = ({ onClick, href }) => {
     },
   };
 
+  const messageBubbleVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.8,
+      filter: "blur(4px)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+    pulse: {
+      boxShadow: [
+        "0 0 20px rgba(149, 98, 229, 0.3), inset 0 0 8px rgba(238, 130, 238, 0.2)",
+        "0 0 25px rgba(149, 98, 229, 0.4), inset 0 0 10px rgba(238, 130, 238, 0.3)",
+        "0 0 20px rgba(149, 98, 229, 0.3), inset 0 0 8px rgba(238, 130, 238, 0.2)",
+      ],
+      transition: {
+        duration: 2,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "mirror",
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 0.9,
+      filter: "blur(4px)",
+      transition: {
+        duration: 0.3,
+        ease: "easeIn",
+      },
+    },
+  };
+
   return (
     <div
       className="fluid-button-wrapper"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      <AnimatePresence>
+        {isMessageVisible && message && (
+          <motion.div
+            className="message-bubble"
+            variants={messageBubbleVariants}
+            initial="hidden"
+            animate={["visible", "pulse"]}
+            exit="exit"
+          >
+            <div className="side-accent-left"></div>
+            <div className="side-accent-right"></div>
+            <div className="message-content">
+              <div className="message-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M6 13a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H6m11 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-1m-5 0a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-1z" 
+                    fill="url(#paint0_linear)" 
+                  />
+                  <defs>
+                    <linearGradient id="paint0_linear" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#9562E5" />
+                      <stop offset="1" stopColor="#EE82EE" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div className="message-text">{message}</div>
+            </div>
+            <div className="message-arrow"></div>
+            <motion.button 
+              className="message-close"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMessageVisible(false);
+              }}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              ×
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.button
         className="fluid-button"
         onClick={handleClick}
@@ -166,20 +272,20 @@ const FluidButton: React.FC<FluidButtonProps> = ({ onClick, href }) => {
         </motion.div>
 
         <motion.div
-          className="github-icon"
+          className="robot-icon"
           variants={iconVariants}
           initial="idle"
           animate={isHovered ? "hover" : "idle"}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="23.64px"
-            height="20px"
-            viewBox="0 0 1664 1408"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
           >
             <path
               fill="currentColor"
-              d="M640 960q0 40-12.5 82t-43 76t-72.5 34t-72.5-34t-43-76t-12.5-82t12.5-82t43-76t72.5-34t72.5 34t43 76t12.5 82m640 0q0 40-12.5 82t-43 76t-72.5 34t-72.5-34t-43-76t-12.5-82t12.5-82t43-76t72.5-34t72.5 34t43 76t12.5 82m160 0q0-120-69-204t-187-84q-41 0-195 21q-71 11-157 11t-157-11q-152-21-195-21q-118 0-187 84t-69 204q0 88 32 153.5t81 103t122 60t140 29.5t149 7h168q82 0 149-7t140-29.5t122-60t81-103t32-153.5m224-176q0 207-61 331q-38 77-105.5 133t-141 86t-170 47.5t-171.5 22t-167 4.5q-78 0-142-3t-147.5-12.5t-152.5-30t-137-51.5t-121-81t-86-115Q0 992 0 784q0-237 136-396q-27-82-27-170q0-116 51-218q108 0 190 39.5T539 163q147-35 309-35q148 0 280 32q105-82 187-121t189-39q51 102 51 218q0 87-27 168q136 160 136 398"
+              d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M6 13a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1H6m11 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-1m-5 0a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-1z"
             />
           </svg>
         </motion.div>

@@ -205,7 +205,7 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* 浮动按钮 */}
-      <LluidButton href='https://github.com/Yangeyu/colorpicker'/>
+      <LluidButton />
     </div>
   );
 };

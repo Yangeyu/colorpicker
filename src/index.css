@@ -99,7 +99,7 @@ input:focus {
 }
 
 /* Animation keyframes */
-@keyframes pulse {
+@keyframes pint-pulse {
   0% {
     opacity: 0.8;
     box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
